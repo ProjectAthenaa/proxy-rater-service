@@ -5,7 +5,7 @@ import "github.com/ProjectAthenaa/sonic-core/sonic/database/ent/product"
 var siteMap = map[product.Site]string{
 	product.SiteFinishLine:     "https://www.finishline.com/",
 	product.SiteJD_Sports:      "https://www.jdsports.com/",
-	product.SiteYeezySupply:    "https://www.yeezysupply.com/",
+	product.SiteYeezySupply:    "http://www.yeezysupply.com/",
 	product.SiteSupreme:        "https://www.supremenewyork.com/",
 	product.SiteEastbay_US:     "https://www.eastbay.com/",
 	product.SiteChamps_US:      "https://www.champssports.com/",

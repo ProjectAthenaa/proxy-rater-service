@@ -4,16 +4,13 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"github.com/ProjectAthenaa/sonic-core/fasttls"
+	"github.com/ProjectAthenaa/sonic-core/fasttls/tls"
 	protos "github.com/ProjectAthenaa/sonic-core/protos/proxy-rater"
 	"github.com/ProjectAthenaa/sonic-core/sonic/database/ent/product"
 	"github.com/bradfitz/slice"
 	"github.com/prometheus/common/log"
-	"github.com/tcnksm/go-httpstat"
-	"io"
-	"io/ioutil"
 	"math/rand"
-	"net/http"
-	"net/url"
 	"strings"
 	"sync"
 	"time"
@@ -50,36 +47,17 @@ func (r *Rater) Rate(proxy string, site product.Site) {
 		authorization = base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", v[0], v[1])))
 	}
 
-	req, _ := http.NewRequest("GET", siteMap[site], nil)
+	client := fasttls.NewClient(tls.HelloChrome_91, &proxy)
 
-	var result httpstat.Result
+	req, _ := client.NewRequest("GET", siteMap[site], nil)
 
-	ctx := httpstat.WithHTTPStat(req.Context(), &result)
-	req = req.WithContext(ctx)
-
-	client := http.DefaultClient
-
-	if authorization != "" {
-		pr, _ := url.Parse(fmt.Sprintf("http://%s", proxy))
-		req.Header.Set("Proxy-Authorization", fmt.Sprintf("Basic %s", authorization))
-		client = &http.Client{
-			Transport: &http.Transport{Proxy: http.ProxyURL(pr)},
-		}
-	}
 	res, err := client.Do(req)
 	if err != nil {
 		log.Error("do req: ", err)
 		return
 	}
 
-	if _, err = io.Copy(ioutil.Discard, res.Body); err != nil {
-		log.Error("io copy: ", err)
-		return
-	}
-	res.Body.Close()
-	result.End(time.Now())
-
-	length := result.ContentTransfer(time.Now())
+	length := res.TimeTaken
 
 	r.locker.Lock()
 	defer r.locker.Unlock()

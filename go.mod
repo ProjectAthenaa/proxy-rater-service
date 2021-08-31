@@ -6,7 +6,6 @@ require (
 	github.com/ProjectAthenaa/sonic-core v0.0.0-20210831174550-a259a7444ef8
 	github.com/bradfitz/slice v0.0.0-20180809154707-2b758aa73013
 	github.com/prometheus/common v0.4.0
-	github.com/tcnksm/go-httpstat v0.2.0
 	google.golang.org/grpc v1.40.0
 )
 
@@ -14,12 +13,15 @@ require (
 	entgo.io/contrib v0.1.0 // indirect
 	entgo.io/ent v0.9.1 // indirect
 	github.com/99designs/gqlgen v0.13.0 // indirect
+	github.com/DataDog/zstd v1.4.8 // indirect
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
 	github.com/alecthomas/units v0.0.0-20210208195552-ff826a37aa15 // indirect
+	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/arsmn/fastgql v0.14.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/dsnet/compress v0.0.1 // indirect
 	github.com/go-bindata/go-bindata v1.0.1-0.20190711162640-ee3c2418e368 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/go-redis/redis/v8 v8.11.3 // indirect
@@ -29,16 +31,20 @@ require (
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/json-iterator/go v1.1.11 // indirect
+	github.com/klauspost/compress v1.13.4 // indirect
 	github.com/lib/pq v1.10.2 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/thoas/go-funk v0.9.0 // indirect
+	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fastrand v1.0.0 // indirect
 	github.com/vektah/gqlparser/v2 v2.2.0 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.3.4 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	go4.org v0.0.0-20201209231011-d4a079459e60 // indirect
+	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
 	golang.org/x/mod v0.4.2 // indirect
 	golang.org/x/net v0.0.0-20210610132358-84b48f89b13b // indirect
 	golang.org/x/sys v0.0.0-20210820121016-41cdb8703e55 // indirect

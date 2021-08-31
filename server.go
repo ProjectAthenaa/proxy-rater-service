@@ -4,8 +4,8 @@ import (
 	"github.com/ProjectAthenaa/proxy-rater/service"
 	protos "github.com/ProjectAthenaa/sonic-core/protos/proxy-rater"
 	"github.com/prometheus/common/log"
-	"net"
 	"google.golang.org/grpc"
+	"net"
 )
 
 func main() {
