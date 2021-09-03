@@ -6,12 +6,23 @@ import (
 	"github.com/prometheus/common/log"
 	"google.golang.org/grpc"
 	"net"
+	"os"
 )
 
 func main() {
-	listener, err := net.Listen("tcp", ":3000")
-	if err != nil{
-		log.Fatalln("start listener: ", err)
+	var listener net.Listener
+	var err error
+
+	if os.Getenv("DEBUG") == "1"{
+		listener, err = net.Listen("tcp", ":5000")
+		if err != nil{
+			log.Fatalln("start listener: ", err)
+		}
+	}else{
+		listener, err = net.Listen("tcp", ":3000")
+		if err != nil{
+			log.Fatalln("start listener: ", err)
+		}
 	}
 
 	server := grpc.NewServer()

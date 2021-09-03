@@ -3,7 +3,7 @@ module github.com/ProjectAthenaa/proxy-rater
 go 1.17
 
 require (
-	github.com/ProjectAthenaa/sonic-core v0.0.0-20210831174550-a259a7444ef8
+	github.com/ProjectAthenaa/sonic-core v0.0.0-20210903203206-dc7b331dfd17
 	github.com/bradfitz/slice v0.0.0-20180809154707-2b758aa73013
 	github.com/prometheus/common v0.4.0
 	google.golang.org/grpc v1.40.0
