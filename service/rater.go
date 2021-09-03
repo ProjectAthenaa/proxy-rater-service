@@ -99,7 +99,7 @@ func (r *Rater) addProxy(proxy *ratedProxy, site product.Site) {
 func (r *Rater) GetEntry(site product.Site) *protos.Proxy {
 	rand.Seed(time.Now().UnixNano())
 
-	p := r.proxies[site][rand.Intn(len(r.proxies[site])-1)]
+	p := r.proxies[site][rand.Intn(len(r.proxies[site]))-1]
 
 	return &protos.Proxy{
 		Value:         p.proxy,
