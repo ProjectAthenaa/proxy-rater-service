@@ -99,13 +99,7 @@ func (r *Rater) addProxy(proxy *ratedProxy, site product.Site) {
 
 func (r *Rater) GetEntry(site product.Site) *protos.Proxy {
 	rand.Seed(time.Now().UnixNano())
-<<<<<<< HEAD
 	p := r.proxies[site][rand.Intn(len(r.proxies[site]))]
-=======
-
-	p := r.proxies[site][rand.Intn(len(r.proxies[site]))-1]
->>>>>>> 9131d11622c2023fac72b6610060cd066b436fef
-
 	return &protos.Proxy{
 		Value:         p.proxy,
 		Authorization: p.authorization,
