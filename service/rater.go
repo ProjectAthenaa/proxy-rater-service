@@ -51,7 +51,6 @@ func (r *Rater) Rate(proxy string, site product.Site) {
 
 	req, _ := client.NewRequest("GET", siteMap[site], nil)
 
-
 	res, err := client.Do(req)
 	if err != nil {
 		log.Error("do req: ", err)
@@ -99,7 +98,9 @@ func (r *Rater) addProxy(proxy *ratedProxy, site product.Site) {
 
 func (r *Rater) GetEntry(site product.Site) *protos.Proxy {
 	rand.Seed(time.Now().UnixNano())
+
 	p := r.proxies[site][rand.Intn(len(r.proxies[site]))]
+
 	return &protos.Proxy{
 		Value:         p.proxy,
 		Authorization: p.authorization,
