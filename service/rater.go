@@ -19,9 +19,10 @@ import (
 var rater = NewRater()
 
 type Rater struct {
-	ctx     context.Context
-	proxies map[product.Site][]*ratedProxy
-	locker  sync.Mutex
+	ctx          context.Context
+	proxies      map[product.Site][]*ratedProxy
+	addedProxies map[string]bool
+	locker       sync.Mutex
 }
 
 type ratedProxy struct {
@@ -32,9 +33,10 @@ type ratedProxy struct {
 
 func NewRater() *Rater {
 	r := &Rater{
-		ctx:     context.Background(),
-		proxies: map[product.Site][]*ratedProxy{},
-		locker:  sync.Mutex{},
+		ctx:          context.Background(),
+		proxies:      map[product.Site][]*ratedProxy{},
+		addedProxies: map[string]bool{},
+		locker:       sync.Mutex{},
 	}
 
 	return r
@@ -81,6 +83,8 @@ func (r *Rater) addProxy(proxy *ratedProxy, site product.Site) {
 		}
 	}
 
+	r.addedProxies[proxy.proxy] = true
+
 	if availableIndex != -1 {
 		r.proxies[site][availableIndex] = proxy
 	}
@@ -99,10 +103,13 @@ func (r *Rater) addProxy(proxy *ratedProxy, site product.Site) {
 func (r *Rater) GetEntry(site product.Site) *protos.Proxy {
 	rand.Seed(time.Now().UnixNano())
 
-	p := r.proxies[site][rand.Intn(len(r.proxies[site]))]
+	if proxies, ok := r.proxies[site]; ok {
+		p := r.proxies[site][rand.Intn(len(proxies))]
 
-	return &protos.Proxy{
-		Value:         p.proxy,
-		Authorization: p.authorization,
+		return &protos.Proxy{
+			Value:         p.proxy,
+			Authorization: p.authorization,
+		}
 	}
+	return &protos.Proxy{}
 }
