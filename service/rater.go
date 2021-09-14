@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"encoding/base64"
-	"fmt"
 	"github.com/ProjectAthenaa/sonic-core/fasttls"
 	"github.com/ProjectAthenaa/sonic-core/fasttls/tls"
 	protos "github.com/ProjectAthenaa/sonic-core/protos/proxy-rater"
@@ -16,13 +15,16 @@ import (
 	"time"
 )
 
-var rater = NewRater()
+var (
+	client = fasttls.NewClient(tls.HelloChrome_91, nil)
+	rater  = NewRater()
+)
 
 type Rater struct {
 	ctx          context.Context
 	proxies      map[product.Site][]*ratedProxy
 	addedProxies map[string]bool
-	locker       sync.Mutex
+	locker       *sync.Mutex
 }
 
 type ratedProxy struct {
@@ -36,7 +38,7 @@ func NewRater() *Rater {
 		ctx:          context.Background(),
 		proxies:      map[product.Site][]*ratedProxy{},
 		addedProxies: map[string]bool{},
-		locker:       sync.Mutex{},
+		locker:       &sync.Mutex{},
 	}
 
 	return r
@@ -45,13 +47,15 @@ func NewRater() *Rater {
 func (r *Rater) Rate(proxy string, site product.Site) {
 	var authorization string
 
-	if v := strings.Split(proxy, ":"); len(v) == 4 {
-		authorization = base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", v[0], v[1])))
+	if v := strings.Split(proxy, "@"); len(v) == 2 {
+		authorization = base64.StdEncoding.EncodeToString([]byte(v[0]))
 	}
 
-	client := fasttls.NewClient(tls.HelloChrome_91, &proxy)
-
-	req, _ := client.NewRequest("GET", siteMap[site], nil)
+	req, err := client.NewRequest("GET", siteMap[site], nil)
+	if err != nil {
+		return
+	}
+	req.Proxy = &proxy
 
 	res, err := client.Do(req)
 	if err != nil {
